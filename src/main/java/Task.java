@@ -15,6 +15,10 @@ public class Task {
         return description;
     }
 
+    public String getSaveString() throws Exception {
+        throw new Exception("Not allowed to save basic task");
+    }
+
     @Override
     public String toString() {
         return "[" + (isDone ? "\u2713" : "\u2718") + "] " + description;
