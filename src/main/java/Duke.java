@@ -1,4 +1,6 @@
+
 import java.io.*;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class Duke {
                     case "done":
                         int index = Integer.parseInt(line[1]) - 1;
                         if (index >= list.size() || index < 0) {
-                            throw new DukeException(formatReply("Tasks out of bounds cannyot be donye ^>w<^"));
+                            throw new DukeException(formatError("Tasks out of bounds cannyot be donye >w<"));
                         }
                         Task task = list.get(index);
                         task.markDone();
@@ -36,7 +38,7 @@ public class Duke {
                     case "delete":
                         index = Integer.parseInt(line[1]) - 1;
                         if (index >= list.size() || index < 0) {
-                            throw new DukeException(formatReply("Nyooooo ^;;w;;^ You cannyot dewete beyond the wist size!"));
+                            throw new DukeException(formatError("Nyooooo ;;w;; You cannyot dewete beyond the wist size!"));
                         }
                         task = list.get(index);
                         list.remove(task);
@@ -64,10 +66,11 @@ public class Duke {
                                     }
                                 }
                                 if (description.toString().equals("")) {
-                                    throw new DukeException(formatReply("OOPS ^;;w;;^  The descwiption of a deadwinye cannyot be empty."));
+                                    throw new DukeException(formatError("OOPS ;;w;;  The descwiption of a deadwinye cannyot be empty."));
                                 }
                                 if (by.toString().equals("")) {
-                                    throw new DukeException(formatReply("OOPS ^;;w;;^  The deadwinye of a deadwinye cannyot be empty, did you use /by to state the deadwinye?"));
+                                    throw new DukeException(formatError("OOPS ;;w;;  The deadwinye of a deadwinye cannyot be empty" +
+                                            ", did you use /by to state the deadwinye?"));
                                 }
                                 newTask = new Deadline(description.toString(), by.toString());
                                 break;
@@ -87,16 +90,17 @@ public class Duke {
                                     }
                                 }
                                 if (description.toString().equals("")) {
-                                    throw new DukeException(formatReply("OOPS ^owo^  The descwiption of a event cannyot be empty."));
+                                    throw new DukeException(formatError("OOPS owo  The descwiption of a event cannyot be empty."));
                                 }
                                 if (at.toString().equals("")) {
-                                    throw new DukeException(formatReply("OOPS ^;;w;;^  The timing fow an event cannyot be empty, did you use /at to state the timing?"));
+                                    throw new DukeException(formatError("OOPS ;;w;;  The timing fow an event cannyot be empty," +
+                                            " did you use /at to state the timing?"));
                                 }
                                 newTask = new Event(description.toString(), at.toString());
                                 break;
                             case "todo":
                                 if (line.length == 1) {
-                                    throw new DukeException(formatReply("OOPS (^・`ω´・^)  The descwiption of a todo cannyot be empty."));
+                                    throw new DukeException(formatError("OOPS (・`ω´・)  The descwiption of a todo cannyot be empty."));
                                 }
                                 for (int i = 1; i < line.length; i++) {
                                     description.append(line[i]).append(" ");
@@ -104,7 +108,7 @@ public class Duke {
                                 newTask = new Todo(description.toString());
                                 break;
                             default:
-                                throw new DukeException(formatReply("OOPS ^owo^  I'm sowwy, but I don't knyow what that means :-("));
+                                throw new DukeException(formatError("OOPS owo  I'm sowwy, but I don't knyow what that means ^;;w;;^"));
                         }
                         list.add(newTask);
                         System.out.print(formatReply("Got it ^UwU^ I've added this task: \n\t"
@@ -115,7 +119,10 @@ public class Duke {
                     saveFile();
                 }
             } catch (DukeException e) {
-                System.out.print(e);
+                System.out.print("\t" + e);
+            } catch (DateTimeParseException e) {
+                System.out.print(formatError("Youw date and time fowmat is invawid ^;;w;;^ "
+                        + "Make suwe to fowwow d/MM/yyyy fowmat fowwowed by optionyaw 24 houw time HH:mm (^・`ω´・^)"));
             }
             line = br.readLine().split(" ");
             cmd = line[0];
@@ -128,6 +135,14 @@ public class Duke {
         sb.append("*".repeat(60)).append("\n\t");
         sb.append(line).append("\n\t");
         sb.append("*".repeat(60)).append("\n");
+        return sb.toString();
+    }
+
+    private static String formatError(String error) {
+        StringBuilder sb = new StringBuilder("\t");
+        sb.append("x".repeat(44)).append("\n\t");
+        sb.append(error).append("\n\t");
+        sb.append("x".repeat(60)).append("\n");
         return sb.toString();
     }
 

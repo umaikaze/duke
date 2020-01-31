@@ -11,10 +11,6 @@ public class Task {
         isDone = true;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public String getSaveString() throws Exception {
         throw new Exception("Not allowed to save basic task");
     }

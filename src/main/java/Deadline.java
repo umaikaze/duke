@@ -1,9 +1,18 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Deadline extends Task {
-    protected String by;
+    protected LocalDateTime by;
+    protected boolean hasTime = false;
 
     public Deadline(String description, String by) {
         super(description);
-        this.by = by;
+        if (by.length() <= 10) {
+            by = by + " 23:59";
+        } else {
+            hasTime = true;
+        }
+        this.by = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("d/M/yyyy HH:mm"));
     }
 
     @Override
@@ -13,6 +22,7 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: " + by.format(DateTimeFormatter.ofPattern("EEEE, dd MMM yyyy"
+                + (hasTime ? " HH:mm" : ""))) + ")";
     }
 }

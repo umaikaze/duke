@@ -1,7 +1,7 @@
 list
 todo take care of kyaru
-deadline refill catfood /by 6pm
-event kishi-san meeting /at Friday 7pm
+deadline refill catfood /by 25/1/2020 18:30
+event kishi-san meeting /at 31/1/2020
 this should pop an error
 list
 done 1
