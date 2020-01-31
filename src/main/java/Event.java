@@ -17,7 +17,8 @@ public class Event extends Task {
 
     @Override
     public String getSaveString() {
-        return "E | " + (isDone ? 1 : 0) + " | " + description + " | " + at;
+        return "E|" + (isDone ? 1 : 0) + "|" + description + "|"
+                + at.format(DateTimeFormatter.ofPattern("d/M/yyyy HH:mm"));
     }
 
     @Override

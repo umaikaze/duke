@@ -5,7 +5,7 @@ public class Todo extends Task {
 
     @Override
     public String getSaveString() {
-        return "T | " + (isDone ? 1 : 0) + " | " + description;
+        return "T|" + (isDone ? 1 : 0) + "|" + description;
     }
 
     @Override
