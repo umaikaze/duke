@@ -3,27 +3,23 @@ import java.time.format.DateTimeFormatter;
 
 public class Event extends Task {
     protected LocalDateTime at;
-    protected boolean hasTime = false;
+    protected boolean hasTime;
 
-    public Event(String description, String at) {
+    public Event(String description, LocalDateTime at, boolean hasTime) {
         super(description);
-        if (at.length() <= 10) {
-            at = at + " 23:59";
-        } else {
-            hasTime = true;
-        }
-        this.at = LocalDateTime.parse(at, DateTimeFormatter.ofPattern("d/M/yyyy HH:mm"));
+        this.at = at;
+        this.hasTime = hasTime;
     }
 
     @Override
     public String getSaveString() {
         return "E|" + (isDone ? 1 : 0) + "|" + description + "|"
-                + at.format(DateTimeFormatter.ofPattern("d/M/yyyy HH:mm"));
+                + at.format(DateTimeFormatter.ofPattern("d/M/yyyy" + (hasTime ? " H:mm" : "")));
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (at: " + at.format(DateTimeFormatter.ofPattern("EEEE, dd MMM yyyy"
-                + (hasTime ? " HH:mm" : ""))) + ")";
+        return "[E]" + super.toString() + " (at: " + at.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy"
+                + (hasTime ? " H:mm" : ""))) + ")";
     }
 }
