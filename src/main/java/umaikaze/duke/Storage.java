@@ -1,3 +1,10 @@
+package umaikaze.duke;
+
+import umaikaze.duke.task.Deadline;
+import umaikaze.duke.task.Event;
+import umaikaze.duke.task.Task;
+import umaikaze.duke.task.Todo;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

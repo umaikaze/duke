@@ -1,3 +1,7 @@
+package umaikaze.duke.task;
+
+import umaikaze.duke.DukeException;
+
 public class Task {
     protected String description;
     protected boolean isDone;

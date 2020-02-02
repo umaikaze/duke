@@ -1,3 +1,7 @@
+package umaikaze.duke;
+
+import umaikaze.duke.task.Task;
+
 import java.util.List;
 
 public class Ui {
