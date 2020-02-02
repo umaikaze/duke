@@ -21,6 +21,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "[" + (isDone ? "X" : "  ") + "] " + description;
+        return "[" + (isDone ? "\u2713" : "\u2718") + "] " + description;
     }
 }

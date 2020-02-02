@@ -31,10 +31,10 @@ public class TaskList {
         switch (cmd) {
             case "deadline":
                 if (p.getDescription().equals("")) {
-                    throw new DukeException("OOPS ;;w;;  The descwiption of a deadwinye cannyot be empty.");
+                    throw new DukeException("OOPS ;;ω;;  The descwiption of a deadwinye cannyot be empty.");
                 }
                 if (p.time == null) {
-                    throw new DukeException("OOPS ;;w;;  The deadwinye of a deadwinye cannyot be empty" +
+                    throw new DukeException("OOPS ;;ω;;  The deadwinye of a deadwinye cannyot be empty" +
                             ", did you use /by to state the deadwinye?");
                 }
                 newTask = new Deadline(p.getDescription(), p.time, p.hasTime);
@@ -44,7 +44,7 @@ public class TaskList {
                     throw new DukeException("OOPS owo  The descwiption of a event cannyot be empty.");
                 }
                 if (p.time == null) {
-                    throw new DukeException("OOPS ;;w;;  The timing fow an event cannyot be empty," +
+                    throw new DukeException("OOPS ;;ω;;  The timing fow an event cannyot be empty," +
                             " did you use /at to state the timing?");
                 }
                 newTask = new Event(p.getDescription(), p.time, p.hasTime);
@@ -56,7 +56,7 @@ public class TaskList {
                 newTask = new Todo(p.getDescription());
                 break;
             default:
-                throw new DukeException("OOPS owo  I'm sowwy, but I don't knyow what that means ^;;w;;^");
+                throw new DukeException("OOPS oωo  I'm sowwy, but I don't knyow what that means ^;;ω;;^");
         }
         return newTask;
     }
@@ -64,22 +64,22 @@ public class TaskList {
     public String addTask(String[] line) throws DukeException{
         Task newTask = getTask(line);
         list.add(newTask);
-        return "Got it ^UwU^ I've added this task: \n\t"
+        return "Got it ^UωU^ I've added this task: \n\t"
                 + newTask + "\n\t" + countList();
     }
 
     public String markDone(int index) throws DukeException{
         if (index >= list.size() || index < 0) {
-            throw new DukeException("Tasks out of bounds cannyot be donye >w<");
+            throw new DukeException("Tasks out of bounds cannyot be donye >ω<");
         }
         Task task = list.get(index);
         task.markDone();
-        return "Nyice ^;;w;;^  I've mawked this task as donye: \n\t" + task;
+        return "Nyice ^;;ω;;^  I've mawked this task as donye: \n\t" + task;
     }
 
     public String delete(int index) throws DukeException{
         if (index >= list.size() || index < 0) {
-            throw new DukeException("Nyooooo ;;w;; You cannyot delete beyond the list size!");
+            throw new DukeException("Nyooooo ;;ω;; You cannyot delete beyond the list size!");
         }
         Task task = list.get(index);
         list.remove(task);

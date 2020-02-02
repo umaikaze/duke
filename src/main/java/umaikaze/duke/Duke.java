@@ -3,6 +3,7 @@ package umaikaze.duke;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.time.format.DateTimeParseException;
 
 public class Duke {
@@ -10,9 +11,8 @@ public class Duke {
     Storage st;
     TaskList tl;
 
-    public Duke(String savePath) {
+    public Duke(String savePath) throws UnsupportedEncodingException {
         ui = new Ui();
-        ui.showHeading();
         st = new Storage(savePath);
         try {
             tl = new TaskList(st.loadFile());
@@ -61,11 +61,14 @@ public class Duke {
 
     public static void main(String[] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Duke d = new Duke("../src/data/data.txt");
         try {
+            Duke d = new Duke("../src/data/data.txt");
             d.run(br);
+        } catch (UnsupportedEncodingException e) {
+            System.out.println("^;;w;;^ The programmer was clumsy and set an unsupported output encoding: "
+                    + e.getMessage());
         } catch (IOException e) {
-            d.ui.showError(e.getMessage());
+            System.out.println("^;;w;;^ a fatal input / output error has occurred: " + e.getMessage());
         }
     }
 }

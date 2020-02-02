@@ -2,9 +2,18 @@ package umaikaze.duke;
 
 import umaikaze.duke.task.Task;
 
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class Ui {
+    PrintStream out;
+
+    public Ui() throws UnsupportedEncodingException {
+        out = new PrintStream(System.out, true, "UTF-8");
+        showHeading();
+    }
+
     public void showHeading() {
         showReply("hewwo fwom\n\t _____     _\n\t"
                 + "|     |___| |_ ___ ___ ___ ___ ___ ___\n\t"
@@ -18,7 +27,7 @@ public class Ui {
         sb.append("*".repeat(60)).append("\n\t");
         sb.append(line).append("\n\t");
         sb.append("*".repeat(60)).append("\n");
-        System.out.print(sb.toString());
+        out.print(sb.toString());
     }
 
     public void showError(String error) {
@@ -26,7 +35,7 @@ public class Ui {
         sb.append("x".repeat(60)).append("\n\t");
         sb.append(error).append("\n\t");
         sb.append("x".repeat(60)).append("\n");
-        System.out.print(sb.toString());
+        out.print(sb.toString());
     }
 
     public void printList(List<Task> list) {
@@ -40,6 +49,6 @@ public class Ui {
             }
         }
         sb.append("*".repeat(60)).append("\n");
-        System.out.print(sb.toString());
+        out.print(sb.toString());
     }
 }
