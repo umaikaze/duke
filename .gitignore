@@ -20,3 +20,6 @@ bin/
 
 # JUnit test input / output files
 /src/test/data.txt
+
+# IntelliJ build
+/out/
