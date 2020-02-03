@@ -1,3 +1,7 @@
+/**
+ * Main class for the Duke project
+ */
+
 package umaikaze.duke;
 
 import java.io.BufferedReader;
@@ -22,6 +26,9 @@ public class Duke {
         }
     }
 
+    /**
+     * Handles the 3 main types of commands, passes the handling to TaskList for adding tasks
+     */
     void run(BufferedReader br) throws IOException {
         ui.showReply("how may i sewve u today nya?");
         String[] line = br.readLine().split(" ");
@@ -59,6 +66,10 @@ public class Duke {
         ui.showReply("Bye. Hope to see you again soon ^>w<^");
     }
 
+    /**
+     * Initialize the Duke object
+     * Sets the save directory for the Storage during initialization
+     */
     public static void main(String[] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
