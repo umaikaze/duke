@@ -5,22 +5,19 @@ import umaikaze.duke.task.Event;
 import umaikaze.duke.task.Task;
 import umaikaze.duke.task.Todo;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
-    String savePath;
+    private File saveFile;
 
     public Storage(String savePath) {
-        this.savePath = savePath;
+        this.saveFile = new File(savePath);
     }
 
     public void saveFile(List<Task> list) throws IOException, DukeException {
-        PrintWriter out = new PrintWriter(savePath, "UTF-8");
+        PrintWriter out = new PrintWriter(saveFile, "UTF-8");
         StringBuilder sb = new StringBuilder("");
         for (int i = 1; i <= list.size(); i++) {
             Task task = list.get(i - 1);
@@ -32,7 +29,7 @@ public class Storage {
 
     public List<Task> loadFile() throws IOException {
         List<Task> list = new ArrayList<>(100);
-        BufferedReader br = new BufferedReader(new FileReader(savePath));
+        BufferedReader br = new BufferedReader(new FileReader(saveFile));
         String nextLine = br.readLine();
         String[] line;
         if (nextLine != null) {
