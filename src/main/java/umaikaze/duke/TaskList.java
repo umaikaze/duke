@@ -1,3 +1,8 @@
+/**
+ * Where List<Task> is handled
+ * Adds, delete, markdone and prints the list
+ */
+
 package umaikaze.duke;
 
 import umaikaze.duke.task.Deadline;
@@ -20,7 +25,7 @@ public class TaskList {
         list = loaded;
     }
 
-    public String countList() {
+    public String getSizeMessage() {
         return "Nyow you have " + list.size() + " tasks in the wist.";
     }
 
@@ -61,13 +66,21 @@ public class TaskList {
         return newTask;
     }
 
+    /**
+     * Adds a new Task object to list, as specified by
+     * @param line, a String array already split
+     * Returns the Task description in String when successful
+     */
     public String addTask(String[] line) throws DukeException{
         Task newTask = getTask(line);
         list.add(newTask);
         return "Got it ^UωU^ I've added this task: \n\t"
-                + newTask + "\n\t" + countList();
+                + newTask + "\n\t" + getSizeMessage();
     }
 
+    /**
+     * @param index starts from 0
+     */
     public String markDone(int index) throws DukeException{
         if (index >= list.size() || index < 0) {
             throw new DukeException("Tasks out of bounds cannyot be donye >ω<");
@@ -84,7 +97,7 @@ public class TaskList {
         Task task = list.get(index);
         list.remove(task);
         return "Nyoted (^・`ω´・^)  I've wemuvd this task: \n\t"
-                + task + "\n\t" + countList();
+                + task + "\n\t" + getSizeMessage();
     }
 
     public void printList(Ui ui) {

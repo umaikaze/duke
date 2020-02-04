@@ -1,3 +1,8 @@
+/**
+ * Storage class saves List<Task> in the directory providing upon initialization
+ * Loads from file, parse it using Parser and returns a List<Task>
+ */
+
 package umaikaze.duke;
 
 import umaikaze.duke.task.Deadline;
@@ -12,10 +17,18 @@ import java.util.List;
 public class Storage {
     private File saveFile;
 
+    /**
+     * @param savePath This is the only way to set save directory for each Storage object
+     */
     public Storage(String savePath) {
         this.saveFile = new File(savePath);
     }
 
+    /**
+     * Adds Tasks from list to the data file as specified by saveFile
+     * WARNING: In the case where the file is already populated, this method would not delete the original content
+     * but simply append new Tasks to the file
+     */
     public void saveFile(List<Task> list) throws IOException, DukeException {
         PrintWriter out = new PrintWriter(saveFile, "UTF-8");
         StringBuilder sb = new StringBuilder("");
@@ -27,6 +40,9 @@ public class Storage {
         out.close();
     }
 
+    /**
+     * Returns a List<Task> that is parsed from the directory as specified by saveFile
+     */
     public List<Task> loadFile() throws IOException {
         List<Task> list = new ArrayList<>(100);
         BufferedReader br = new BufferedReader(new FileReader(saveFile));
