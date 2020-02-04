@@ -10,14 +10,20 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.time.format.DateTimeParseException;
 
-public class Duke {
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+
+public class Duke extends Application{
     Ui ui;
     Storage st;
     TaskList tl;
 
-    public Duke(String savePath) throws UnsupportedEncodingException {
+    public Duke() throws UnsupportedEncodingException {
         ui = new Ui();
-        st = new Storage(savePath);
+        st = new Storage("../src/data/data.txt");
         try {
             tl = new TaskList(st.loadFile());
         } catch (IOException e) {
@@ -76,7 +82,7 @@ public class Duke {
     public static void main(String[] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            Duke d = new Duke("../src/data/data.txt");
+            Duke d = new Duke();
             d.run(br);
         } catch (UnsupportedEncodingException e) {
             System.out.println("^;;w;;^ The programmer was clumsy and set an unsupported output encoding: "
@@ -84,5 +90,15 @@ public class Duke {
         } catch (IOException e) {
             System.out.println("^;;w;;^ a fatal input / output error has occurred: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void start(Stage stage) {
+        Label helloWorld = new Label("Hewwo Wowwd (・`ω´・) ");
+        helloWorld.setFont(new Font("Comic Sans MS", 22));
+        Scene scene = new Scene(helloWorld);
+
+        stage.setScene(scene);
+        stage.show();
     }
 }
