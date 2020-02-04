@@ -37,18 +37,4 @@ public class Ui {
         sb.append("x".repeat(60)).append("\n");
         out.print(sb.toString());
     }
-
-    public void printList(List<Task> list) {
-        StringBuilder sb = new StringBuilder("\t");
-        sb.append("*".repeat(60)).append("\n\tHewe awe the tasks in youw wist:\n\t");
-        if (list.size() == 0) {
-            sb.append("list is empty ^qwq^\n\t");
-        } else {
-            for (int i = 1; i <= list.size(); i++) {
-                sb.append(i).append(". ").append(list.get(i - 1)).append("\n\t");
-            }
-        }
-        sb.append("*".repeat(60)).append("\n");
-        out.print(sb.toString());
-    }
 }

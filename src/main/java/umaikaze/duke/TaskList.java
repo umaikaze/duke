@@ -87,11 +87,61 @@ public class TaskList {
                 + task + "\n\t" + countList();
     }
 
-    public void printList(Ui ui) {
-        ui.printList(list);
+    private List<Task> find(String[] line) {
+        StringBuilder keyString = new StringBuilder("");
+        for (int i = 1; i < line.length; i++) {
+            if (i != line.length - 1) {
+                keyString.append(line[i]).append(" ");
+            } else {
+                keyString.append(line[i]);
+            }
+        }
+        List<Task> matches = new ArrayList<>(100);
+        for (Task task : list) {
+            if (task.getDescription().contains(keyString.toString())) {
+                matches.add(task);
+            }
+        }
+        return matches;
+    }
+
+    private String getBasicListString(List<Task> list) {
+        StringBuilder sb = new StringBuilder("");
+        for (int i = 1; i <= list.size(); i++) {
+            sb.append(i).append(". ").append(list.get(i - 1));
+            if (i != list.size()) {
+                sb.append("\n\t");
+            }
+        }
+        return sb.toString();
+    }
+
+    public String getFindString(String[] line) throws DukeException{
+        if (line.length == 1) {
+            throw new DukeException("Keyoword(s) cannyot be empty (^・`ω´・^)");
+        }
+        StringBuilder sb = new StringBuilder("Hewe awe the matching tasks in youw list:\n\t");
+        List<Task> findResults = find(line);
+        if (findResults.size() == 0) {
+            sb.append("no matches ^qwq^");
+        } else {
+            sb.append(getBasicListString(findResults));
+        }
+        return sb.toString();
     }
 
     public void saveFile(Storage st) throws IOException, DukeException{
         st.saveFile(list);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Hewe awe the tasks in youw wist:\n\t");
+        if (list.size() == 0) {
+            sb.append("list is empty ^qwq^");
+        } else {
+            sb.append(getBasicListString(list));
+        }
+        return sb.toString();
     }
 }
