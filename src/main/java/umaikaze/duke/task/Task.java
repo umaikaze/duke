@@ -27,6 +27,10 @@ public class Task {
         throw new DukeException("Nyot awwowed to save basic task");
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * @return The status and description of the task only, so it can be called in child classes
      */

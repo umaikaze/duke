@@ -37,13 +37,16 @@ public class Duke {
             try {
                 switch (cmd) {
                 case "list":
-                    tl.printList(ui);
+                    ui.showReply(tl.toString());
                     break;
                 case "done":
                     ui.showReply(tl.markDone(Integer.parseInt(line[1]) - 1));
                     break;
                 case "delete":
                     ui.showReply(tl.delete(Integer.parseInt(line[1]) - 1));
+                    break;
+                case "find":
+                    ui.showReply(tl.getFindString(line));
                     break;
                 default:
                     ui.showReply(tl.addTask(line));
