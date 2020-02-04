@@ -36,18 +36,18 @@ public class Duke {
         while (!cmd.equals("bye")) {
             try {
                 switch (cmd) {
-                    case "list":
-                        tl.printList(ui);
-                        break;
-                    case "done":
-                        ui.showReply(tl.markDone(Integer.parseInt(line[1]) - 1));
-                        break;
-                    case "delete":
-                        ui.showReply(tl.delete(Integer.parseInt(line[1]) - 1));
-                        break;
-                    default:
-                        ui.showReply(tl.addTask(line));
-                        break;
+                case "list":
+                    tl.printList(ui);
+                    break;
+                case "done":
+                    ui.showReply(tl.markDone(Integer.parseInt(line[1]) - 1));
+                    break;
+                case "delete":
+                    ui.showReply(tl.delete(Integer.parseInt(line[1]) - 1));
+                    break;
+                default:
+                    ui.showReply(tl.addTask(line));
+                    break;
                 }
                 if (!cmd.equals("list")) {
                     tl.saveFile(st);

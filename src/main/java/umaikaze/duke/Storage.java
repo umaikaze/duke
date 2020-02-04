@@ -57,29 +57,29 @@ public class Storage {
                 Task task;
                 Parser p;
                 switch (line[0]) {
-                    case "T":
-                        task = new Todo(line[2]);
-                        if (line[1].equals("1")) {
-                            task.markDone();
-                        }
-                        System.out.println("\tLoaded a todo");
-                        break;
-                    case "D":
-                        p = new Parser(line[2], line[3]);
-                        task = new Deadline(p.getDescription(), p.time, p.hasTime);
-                        if (line[1].equals("1")) {
-                            task.markDone();
-                        }
-                        System.out.println("\tLoaded a deadwinye");
-                        break;
-                    default:
-                        p = new Parser(line[2], line[3]);
-                        task = new Event(p.getDescription(), p.time, p.hasTime);
-                        if (line[1].equals("1")) {
-                            task.markDone();
-                        }
-                        System.out.println("\tLoaded an event");
-                        break;
+                case "T":
+                    task = new Todo(line[2]);
+                    if (line[1].equals("1")) {
+                        task.markDone();
+                    }
+                    System.out.println("\tLoaded a todo");
+                    break;
+                case "D":
+                    p = new Parser(line[2], line[3]);
+                    task = new Deadline(p.getDescription(), p.time, p.hasTime);
+                    if (line[1].equals("1")) {
+                        task.markDone();
+                    }
+                    System.out.println("\tLoaded a deadwinye");
+                    break;
+                default:
+                    p = new Parser(line[2], line[3]);
+                    task = new Event(p.getDescription(), p.time, p.hasTime);
+                    if (line[1].equals("1")) {
+                        task.markDone();
+                    }
+                    System.out.println("\tLoaded an event");
+                    break;
                 }
                 list.add(task);
                 nextLine = br.readLine();
