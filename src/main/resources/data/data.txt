@@ -1,0 +1,6 @@
+D|1|line |2/2/2020
+T|0|nothing 
+T|0|everything 
+T|0|delete this bot 
+T|0|add this bot 
+T|0|improve this bot 

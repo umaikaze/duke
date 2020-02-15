@@ -1,4 +1,0 @@
-D|1|refill catfood |25/1/2020 18:30
-E|0|kishi-san meeting |31/1/2020
-T|0|that has a timing 
-E|0|typed in wrong order |5/2/2020 6:00
