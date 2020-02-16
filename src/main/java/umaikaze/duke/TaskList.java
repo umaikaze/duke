@@ -29,39 +29,29 @@ public class TaskList {
         return "Nyow you have " + list.size() + " tasks in the wist.";
     }
 
-    private Task getTask(String[] line) throws DukeException{
+    private Task getTask(String[] line) throws DukeException {
         Task newTask;
         String cmd = line[0];
         Parser p = new Parser(line);
         switch (cmd) {
         case "deadline":
-            if (p.getDescription().equals("")) {
-                throw new DukeException("OOPS ;;ω;;  The descwiption of a deadwinye cannyot be empty.");
-            }
-            if (p.time == null) {
-                throw new DukeException("OOPS ;;ω;;  The deadwinye of a deadwinye cannyot be empty" +
-                        ", did you use /by to state the deadwinye?");
-            }
             newTask = new Deadline(p.getDescription(), p.time, p.hasTime);
             break;
         case "event":
-            if (p.getDescription().equals("")) {
-                throw new DukeException("OOPS owo  The descwiption of a event cannyot be empty.");
-            }
-            if (p.time == null) {
-                throw new DukeException("OOPS ;;ω;;  The timing fow an event cannyot be empty," +
-                        " did you use /at to state the timing?");
-            }
             newTask = new Event(p.getDescription(), p.time, p.hasTime);
             break;
         case "todo":
-            if (p.getDescription().equals("")) {
-                throw new DukeException("OOPS (・`ω´・)  The descwiption of a todo cannyot be empty.");
-            }
             newTask = new Todo(p.getDescription());
             break;
         default:
             throw new DukeException("OOPS oωo  I'm sowwy, but I don't knyow what that means ^;;ω;;^");
+        }
+        if (p.getDescription().equals("")) {
+            throw new DukeException("descwiption must nyot be empty >w<");
+        }
+        if (!cmd.equals("todo")) {
+            throw new DukeException("i couwdn't find the timing in youw instwuctions, make suwe to specify timing " +
+                    "for deadwinye or event with /by and /at");
         }
         return newTask;
     }
@@ -73,6 +63,7 @@ public class TaskList {
      */
     public String addTask(String[] line) throws DukeException{
         Task newTask = getTask(line);
+        assert !newTask.getDescription().equals("");
         list.add(newTask);
         return "Got it ^UωU^ I've added this task: \n\t"
                 + newTask + "\n\t" + getSizeMessage();

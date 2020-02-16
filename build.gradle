@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
 }
 
 group 'umaikaze.duke'
@@ -29,6 +30,13 @@ dependencies {
 
 compileJava {
     options.encoding = 'UTF-8'
+}
+
+shadowJar {
+    archiveBaseName = "duke"
+    archiveVersion = "0.1.1"
+    archiveClassifier = null
+    archiveAppendix = null
 }
 
 application {

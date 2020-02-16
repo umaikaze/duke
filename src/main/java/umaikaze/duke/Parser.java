@@ -72,7 +72,7 @@ public class Parser {
      * Only used for loading file, when the time string already follow the format d/M/yyyy H:mm but H:mm may be
      * obmitted
      */
-    private void parseTime(String str) {
+    private void parseTime(String str) throws AssertionError {
         String[] dateTime = str.split(" ");
         if (dateTime.length == 1) {
             hasTime = false;
@@ -83,6 +83,7 @@ public class Parser {
             time = LocalDateTime.parse(dateTime[0] + " " + dateTime[1],
                     DateTimeFormatter.ofPattern("d" + seperator + "M" + seperator + "yyyy H:mm"));
         }
+        assert time.isAfter(LocalDateTime.now());
     }
 
     public String getDescription() {

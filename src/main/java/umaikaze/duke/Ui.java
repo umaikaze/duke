@@ -1,6 +1,5 @@
 /**
- * Output String message to console
- * Formats them with dividers
+ * Main Ui which the user interact with
  */
 
 package umaikaze.duke;
@@ -34,6 +33,7 @@ public class Ui extends Application {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
     private Image systemImage = new Image(this.getClass().getResourceAsStream("/images/DaSystem.png"));
+    private Image meowImage = new Image(this.getClass().getResourceAsStream("/images/DaMeow.png"));
     PrintStream out;
 
     @Override
@@ -168,19 +168,26 @@ public class Ui extends Application {
         Label userText = new Label(userString);
         dialogContainer.getChildren().add(new DialogBox(userText, new ImageView(userImage)));
 
+        if (userString.toLowerCase().contains("no you don't") || userString.toLowerCase().contains("no you dont")) {
+            dialogContainer.getChildren().add(new DialogBox(
+                    new Label("MEOWWWWWWWWWWWWWWWWWW"), new ImageView(meowImage)));
+            userInput.clear();
+            return;
+        }
+
         String reply = null;
         try {
-            reply = duke.getResponse(userInput.getText());
+            reply = duke.getResponse(userString);
         }  catch (DukeException e) {
             System.out.println("Duke exception caught in handleUserInput");
             showError(e.getMessage());
         } catch (DateTimeParseException e) {
             System.out.println("DateTimeParseException caught in handleUserInput");
-            showError(e.getMessage() + "\n\tYouw date and time fowmat is invawid ^;;w;;^ "
+            showError(e.getMessage() + "\nYouw date and time fowmat is invawid ^;;w;;^ "
                     + "Make suwe to follow d/M/yyyy fowmat followed by optionyal 24 hour time H:mm (^・`ω´・^)");
         } catch (IOException e) {
             System.out.println("IOException caught in handleUserInput");
-            showError("Oh nyo ^;;w;;^  I was unyabwe to save / load because:\n\t" + e.getMessage());
+            showError("Oh nyo ^;;w;;^  I was unyabwe to save / load because:\n" + e.getMessage());
         }
         showReply(reply);
 
