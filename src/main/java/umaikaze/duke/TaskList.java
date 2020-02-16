@@ -17,12 +17,8 @@ import java.util.List;
 public class TaskList {
     List<Task> list;
 
-    public TaskList() {
-        list = new ArrayList<>(100);
-    }
-
-    public TaskList(List<Task> loaded) {
-        list = loaded;
+    public TaskList(List<Task> loadedList) {
+        list = loadedList;
     }
 
     public String getSizeMessage() {
@@ -35,23 +31,22 @@ public class TaskList {
         Parser p = new Parser(line);
         switch (cmd) {
         case "deadline":
-            newTask = new Deadline(p.getDescription(), p.time, p.hasTime);
+            newTask = new Deadline(p.description, p.date, p.time);
             break;
         case "event":
-            newTask = new Event(p.getDescription(), p.time, p.hasTime);
+            newTask = new Event(p.description, p.date, p.time);
             break;
         case "todo":
-            newTask = new Todo(p.getDescription());
+            newTask = new Todo(p.description);
             break;
         default:
-            throw new DukeException("OOPS oωo  I'm sowwy, but I don't knyow what that means ^;;ω;;^");
+            throw new DukeException(Message.EXCEPTION_UNKNOWN_COMMAND);
         }
-        if (p.getDescription().equals("")) {
-            throw new DukeException("descwiption must nyot be empty >w<");
+        if (p.description.equals("")) {
+            throw new DukeException(Message.EXCEPTION_DESCRIPTION_EMPTY);
         }
-        if (!cmd.equals("todo")) {
-            throw new DukeException("i couwdn't find the timing in youw instwuctions, make suwe to specify timing " +
-                    "for deadwinye or event with /by and /at");
+        if (!cmd.equals("todo") && p.date == null) {
+            throw new DukeException(Message.EXCEPTION_TIMING_NOT_FOUND);
         }
         return newTask;
     }
@@ -65,7 +60,7 @@ public class TaskList {
         Task newTask = getTask(line);
         assert !newTask.getDescription().equals("");
         list.add(newTask);
-        return "Got it ^UωU^ I've added this task: \n\t"
+        return Message.TASK_ADDED + "\n\t"
                 + newTask + "\n\t" + getSizeMessage();
     }
 
@@ -74,20 +69,20 @@ public class TaskList {
      */
     public String markDone(int index) throws DukeException{
         if (index >= list.size() || index < 0) {
-            throw new DukeException("Tasks out of bounds cannyot be donye >ω<");
+            throw new DukeException(Message.EXCEPTION_TASK_OUT_OF_BOUNDS);
         }
         Task task = list.get(index);
         task.markDone();
-        return "Nyice ^;;ω;;^  I've mawked this task as donye: \n\t" + task;
+        return Message.TASK_DONE + "\n\t" + task;
     }
 
     public String delete(int index) throws DukeException{
         if (index >= list.size() || index < 0) {
-            throw new DukeException("Nyooooo ;;ω;; You cannyot delete beyond the list size!");
+            throw new DukeException(Message.EXCEPTION_TASK_OUT_OF_BOUNDS);
         }
         Task task = list.get(index);
         list.remove(task);
-        return "Nyoted (^・`ω´・^)  I've wemuvd this task: \n\t"
+        return Message.TASK_DELETED + "\n\t"
                 + task + "\n\t" + getSizeMessage();
     }
 
@@ -122,12 +117,12 @@ public class TaskList {
 
     public String getFindString(String[] line) throws DukeException{
         if (line.length == 1) {
-            throw new DukeException("Keyoword(s) cannyot be empty (^・`ω´・^)");
+            throw new DukeException(Message.EXCEPTION_EMPTY_SEARCH_KEYWORDS);
         }
-        StringBuilder sb = new StringBuilder("Hewe awe the matching tasks in youw list:\n\t");
+        StringBuilder sb = new StringBuilder(Message.FIND + "\n\t");
         List<Task> findResults = find(line);
         if (findResults.size() == 0) {
-            sb.append("no matches ^qwq^");
+            sb.append(Message.EMPTY_SEARCH_RESULT);
         } else {
             sb.append(getBasicListString(findResults));
         }
@@ -140,9 +135,9 @@ public class TaskList {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Hewe awe the tasks in youw wist:\n\t");
+        StringBuilder sb = new StringBuilder(Message.LIST + "\n\t");
         if (list.size() == 0) {
-            sb.append("list is empty ^qwq^");
+            sb.append(Message.EMPTY_LIST);
         } else {
             sb.append(getBasicListString(list));
         }

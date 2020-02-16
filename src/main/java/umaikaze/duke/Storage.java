@@ -1,6 +1,6 @@
 /**
  * Storage class saves List<Task> in the directory providing upon initialization
- * Loads from file, parse it using Parser and returns a List<Task>
+ * Loads from file, parse it using StorageParser and returns a new List<Task>
  */
 
 package umaikaze.duke;
@@ -58,25 +58,22 @@ public class Storage {
         String[] line;
         if (nextLine != null) {
             line = nextLine.split("\\|");
-            for (int i = 0; i < line.length; i++) {
-                line[i] = line[i].trim();
-            }
             while (nextLine != null) {
                 Task task;
-                Parser p;
+                StorageParser p;
                 switch (line[0]) {
                 case "T":
                     task = new Todo(line[2]);
                     System.out.println("Loaded a todo:" + task.getDescription());
                     break;
                 case "D":
-                    p = new Parser(line[2], line[3]);
-                    task = new Deadline(p.getDescription(), p.time, p.hasTime);
+                    p = new StorageParser(line[2], line[3]);
+                    task = new Deadline(p.description, p.date, p.time);
                     System.out.println("Loaded a deadline:" + task.getDescription());
                     break;
                 default:
-                    p = new Parser(line[2], line[3]);
-                    task = new Event(p.getDescription(), p.time, p.hasTime);
+                    p = new StorageParser(line[2], line[3]);
+                    task = new Event(p.description, p.date, p.time);
                     System.out.println("Loaded an event:" + task.getDescription());
                     break;
                 }
@@ -85,9 +82,6 @@ public class Storage {
                 }
                 list.add(task);
                 nextLine = br.readLine();
-                if (nextLine != null) {
-                    line = nextLine.split("\\|");
-                }
             }
         }
         return list;

@@ -1,54 +1,41 @@
 /**
- * Paser class locates the description String and parse String into LocalDateTime
- * from String provided by TaskList class and Storage class
+ * Paser class locates the description String and parse String into LocalDate and LocalTime
+ * from String provided by TaskList class
  */
 
 package umaikaze.duke;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Parser {
     String description;
-    char seperator;
-    LocalDateTime time;
-    boolean hasTime;
-
-    /**
-     * This constructor is used by Storage.loadFile
-     */
-    public Parser(String description, String timeStr) {
-        this.description = description;
-        seperator = '/';
-        parseTime(timeStr);
-    }
+    char separator;
+    LocalDate date = null;
+    LocalTime time = null;
 
     /**
      * This constructor is used by TaskList.getTask
      */
-    public Parser(String[] line) {
-        setTimeString(line);
-        setDescriptionString(line);
+    public Parser(String[] words) {
+        setDateTime(words);
+        setDescriptionString(words);
     }
 
-    private void setTimeString(String[] words) {
-        StringBuilder dateTimeSb = new StringBuilder("");
-        String dateStr = "";
-        String timeStr = "";
-        for (int i = 1; i < words.length; i++) {
-            if (words[i].charAt(0) == '/') {
-                for (int j = i + 1; j < words.length && j < i + 2; j++) {
-                    if (words[j].contains("/") || words[j].contains("-")) {
-                        seperator = words[j].contains("/") ? '/' : '-';
-                        dateStr = words[j];
-                        timeStr = j + 1 >= words.length ? "" : words[j + 1];
-                    }
+    private void setDateTime(String[] words) {
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].equals("/by") || words[i].equals("/at")) {
+                System.out.println("time command recognized");
+                if (words.length > i + 1 && (words[i + 1].contains("/") || words[i + 1].contains("-"))) {
+                    separator = words[i + 1].contains("/") ? '/' : '-';
+                    date = LocalDate.parse(words[i + 1], DateTimeFormatter.ofPattern("d" + separator + "M"
+                            + separator + "yyyy"));
+                }
+                if (words.length > i + 2 && words[i + 2].contains(":")) {
+                    time = LocalTime.parse(words[i + 2], DateTimeFormatter.ofPattern("H:mm"));
                 }
             }
-        }
-        if (!dateStr.equals("")) {
-            dateTimeSb.append(dateStr).append(" ").append(timeStr);
-            parseTime(dateTimeSb.toString());
         }
     }
 
@@ -66,27 +53,5 @@ public class Parser {
             description.append(words[i]).append(" ");
         }
         this.description = description.toString();
-    }
-
-    /**
-     * Only used for loading file, when the time string already follow the format d/M/yyyy H:mm but H:mm may be
-     * obmitted
-     */
-    private void parseTime(String str) throws AssertionError {
-        String[] dateTime = str.split(" ");
-        if (dateTime.length == 1) {
-            hasTime = false;
-            time = LocalDateTime.parse(dateTime[0] + " 23:29", DateTimeFormatter.ofPattern("d" + seperator
-                    + "M" + seperator + "yyyy H:mm"));
-        } else {
-            hasTime = true;
-            time = LocalDateTime.parse(dateTime[0] + " " + dateTime[1],
-                    DateTimeFormatter.ofPattern("d" + seperator + "M" + seperator + "yyyy H:mm"));
-        }
-        assert time.isAfter(LocalDateTime.now());
-    }
-
-    public String getDescription() {
-        return description;
     }
 }

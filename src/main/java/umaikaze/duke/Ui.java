@@ -1,9 +1,10 @@
 /**
- * Main Ui which the user interact with
+ * Main Ui which the user interact with, the Application launched by Launcher
  */
 
 package umaikaze.duke;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,6 +18,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -24,6 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.format.DateTimeParseException;
 
 public class Ui extends Application {
+    private Stage mainStage;
     private Duke duke;
     private Scene scene;
     private ScrollPane scrollPane;
@@ -38,6 +41,8 @@ public class Ui extends Application {
 
     @Override
     public void start(Stage stage) {
+        mainStage = stage;
+
         setUiElements();
 
         AnchorPane mainLayout = new AnchorPane();
@@ -53,7 +58,9 @@ public class Ui extends Application {
         try {
             duke = new Duke();
             if (duke.tl.list.size() == 0) {
-                showReply("Save data is empty, we will stawt fwesh (・`ω´・)");
+                showReply(Message.GREETING_EMPTY_SAVE);
+            } else {
+                showReply(Message.GREETING_LOADED);
             }
         } catch (IOException | DukeException e) {
             showError(e.getMessage());
@@ -142,7 +149,6 @@ public class Ui extends Application {
     }
 
     /**
-     * Iteration 1:
      * Creates a label with the specified text and adds it to the dialog container.
      * @param text String containing text to add
      * @return a label with the specified text that has word wrap enabled.
@@ -155,7 +161,6 @@ public class Ui extends Application {
     }
 
     /**
-     * Iteration 2:
      * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
      * the dialog container. Clears the user input after processing.
      */
@@ -168,29 +173,43 @@ public class Ui extends Application {
         Label userText = new Label(userString);
         dialogContainer.getChildren().add(new DialogBox(userText, new ImageView(userImage)));
 
-        if (userString.toLowerCase().contains("no you don't") || userString.toLowerCase().contains("no you dont")) {
-            dialogContainer.getChildren().add(new DialogBox(
-                    new Label("MEOWWWWWWWWWWWWWWWWWW"), new ImageView(meowImage)));
-            userInput.clear();
-            return;
-        }
-
-        String reply = null;
+        String reply = "";
         try {
+            if (userString.toLowerCase().contains("no you don't") || userString.toLowerCase().contains("no you dont")) {
+                popEasterEgg();
+                return;
+            }
+            if (userString.toLowerCase().equals("bye")) {
+                hideUi();
+                return;
+            }
+
             reply = duke.getResponse(userString);
         }  catch (DukeException e) {
             System.out.println("Duke exception caught in handleUserInput");
             showError(e.getMessage());
         } catch (DateTimeParseException e) {
             System.out.println("DateTimeParseException caught in handleUserInput");
-            showError(e.getMessage() + "\nYouw date and time fowmat is invawid ^;;w;;^ "
-                    + "Make suwe to follow d/M/yyyy fowmat followed by optionyal 24 hour time H:mm (^・`ω´・^)");
+            showError(e.getMessage() + "\n" + Message.EXCEPTION_BAD_TIME_FORMAT);
         } catch (IOException e) {
             System.out.println("IOException caught in handleUserInput");
-            showError("Oh nyo ^;;w;;^  I was unyabwe to save / load because:\n" + e.getMessage());
+            showError(Message.EXCEPTION_UNABLE_TO_SAVE_LOAD + "\n" + e.getMessage());
         }
         showReply(reply);
 
         userInput.clear();
+    }
+
+    private void popEasterEgg() {
+        dialogContainer.getChildren().add(new DialogBox(
+                new Label(Message.BONUS), new ImageView(meowImage)));
+        userInput.clear();
+    }
+
+    private void hideUi() {
+        showReply(Message.GREETING_GOODBYE);
+        PauseTransition delay = new PauseTransition(Duration.millis(1000));
+        delay.setOnFinished( event -> mainStage.close() );
+        delay.play();
     }
 }

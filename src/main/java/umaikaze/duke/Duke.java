@@ -1,5 +1,5 @@
 /**
- * Main class for the Duke project
+ * Duke object that serves as an association between the Ui, Storage and TaskList
  */
 
 package umaikaze.duke;
