@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.time.format.DateTimeParseException;
 
 public class Duke{
-    Storage st;
-    TaskList tl;
+    public Storage st;
+    public TaskList tl;
 
     public Duke() throws IOException, DukeException {
         System.out.println("Working Directory = " +

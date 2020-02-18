@@ -57,8 +57,8 @@ public class Storage {
         String nextLine = br.readLine();
         String[] line;
         if (nextLine != null) {
-            line = nextLine.split("\\|");
             while (nextLine != null) {
+                line = nextLine.split("\\|");
                 Task task;
                 StorageParser p;
                 switch (line[0]) {

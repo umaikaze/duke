@@ -25,6 +25,8 @@ public class TaskList {
         return "Nyow you have " + list.size() + " tasks in the wist.";
     }
 
+    public int size() { return list.size(); };
+
     private Task getTask(String[] line) throws DukeException {
         Task newTask;
         String cmd = line[0];
