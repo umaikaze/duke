@@ -43,6 +43,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        dialogContainer.prefWidthProperty().bind(scrollPane.widthProperty());
     }
 
     public void setDuke(Duke d) {
@@ -100,7 +101,8 @@ public class MainWindow extends AnchorPane {
 
     private void showUserDialog(String userText) {
         DialogBox db = DialogBox.getUserDialog(userText, userImage);
-        db.prefWidthProperty().bind(prefWidthProperty());
+        db.setStyle("-fx-background-color: #ffffff");
+        db.prefWidthProperty().bind(dialogContainer.widthProperty());
         dialogContainer.getChildren().add(db);
     }
 
@@ -112,7 +114,7 @@ public class MainWindow extends AnchorPane {
     private void showDukeDialog(String text, Image image) {
         if (text != null && !text.equals("")) {
             DialogBox db = DialogBox.getDukeDialog(text, image);
-            db.prefWidthProperty().bind(prefWidthProperty());
+            db.prefWidthProperty().bind(dialogContainer.widthProperty());
             dialogContainer.getChildren().add(db);
         }
     }
