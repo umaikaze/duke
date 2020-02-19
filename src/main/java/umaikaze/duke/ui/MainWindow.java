@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+// Solution adapted from https://github.com/nus-cs2103-AY1920S2/duke/blob/master/tutorials/javaFxTutorialPart4.md
+// Color scheme used in this project is generated from https://coolors.co/3b1f2b-dbdfac-5f758e-cc0000-ffebcd
 /**
  * Controller for MainWindow. Provides the layout for the other controls.
  */
@@ -101,8 +103,7 @@ public class MainWindow extends AnchorPane {
 
     private void showUserDialog(String userText) {
         DialogBox db = DialogBox.getUserDialog(userText, userImage);
-        db.setStyle("-fx-background-color: #ffffff");
-        db.prefWidthProperty().bind(dialogContainer.widthProperty());
+        db.bindWidthProperty(dialogContainer.widthProperty());
         dialogContainer.getChildren().add(db);
     }
 
@@ -114,7 +115,7 @@ public class MainWindow extends AnchorPane {
     private void showDukeDialog(String text, Image image) {
         if (text != null && !text.equals("")) {
             DialogBox db = DialogBox.getDukeDialog(text, image);
-            db.prefWidthProperty().bind(dialogContainer.widthProperty());
+            db.bindWidthProperty(dialogContainer.widthProperty());
             dialogContainer.getChildren().add(db);
         }
     }

@@ -1,6 +1,6 @@
 package umaikaze.duke.ui;
 
-import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,17 +10,21 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.util.Collections;
 
-public class DialogBox extends HBox {
+// Solution adapted from https://github.com/nus-cs2103-AY1920S2/duke/blob/master/tutorials/javaFxTutorialPart4.md
+public class DialogBox extends VBox {
     @FXML
     private Text dialog;
     @FXML
     private ImageView displayPicture;
+    @FXML
+    private HBox hBox;
 
     public DialogBox(String text, Image img) {
         try {
@@ -39,7 +43,9 @@ public class DialogBox extends HBox {
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+        DialogBox db = new DialogBox(text, img);
+        db.hBox.setStyle("-fx-background-color: #5F758E; -fx-background-insets: 5; -fx-background-radius: 20;");
+        return db;
     }
 
     public static DialogBox getDukeDialog(String text, Image img) {
@@ -48,11 +54,15 @@ public class DialogBox extends HBox {
         return db;
     }
 
+    public void bindWidthProperty(ObservableValue<? extends Number> v) {
+        hBox.prefWidthProperty().bind(v);
+    }
+
     private void flip() {
-        ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
+        ObservableList<Node> tmp = FXCollections.observableArrayList(hBox.getChildren());
         Collections.reverse(tmp);
-        getChildren().setAll(tmp);
-        setAlignment(Pos.TOP_LEFT);
+        hBox.getChildren().setAll(tmp);
+        hBox.setAlignment(Pos.TOP_LEFT);
         dialog.setTextAlignment(TextAlignment.LEFT);
     }
 }

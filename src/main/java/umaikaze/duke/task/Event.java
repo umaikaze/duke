@@ -22,6 +22,12 @@ public class Event extends Task implements Comparable<Event> {
         return date;
     }
 
+    public LocalTime getTime() { return time; }
+
+    public LocalTime getEndTIme() {
+        return time.plus(duration);
+    }
+
     public String getUiString() {
         return time.format(DateTimeFormatter.ofPattern("H:mm"))
                 + " ~ " + time.plus(duration).format(DateTimeFormatter.ofPattern("H:mm"));

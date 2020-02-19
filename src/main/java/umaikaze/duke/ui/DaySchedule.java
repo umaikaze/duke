@@ -8,6 +8,7 @@ import umaikaze.duke.task.Event;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.PriorityQueue;
 import java.util.stream.Stream;
@@ -31,8 +32,15 @@ public class DaySchedule extends VBox {
             q.add(event);
         });
         this.date.setText(date.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy")));
+        LocalTime lastEventEndTime = LocalTime.MIN;
         while (q.peek() != null) {
-            getChildren().add(new EventUi(q.poll()));
+            Event cur = q.poll();
+            EventUi newBox = new EventUi(cur);
+            if (cur.getTime().isBefore(lastEventEndTime)) {
+                newBox.setStyle("-fx-background-color: #cc0000;");
+            }
+            getChildren().add(newBox);
+            lastEventEndTime = cur.getEndTIme();
         }
     }
 }

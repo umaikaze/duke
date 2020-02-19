@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import umaikaze.duke.ui.MainWindow;
 
+// Solution adapted from https://github.com/nus-cs2103-AY1920S2/duke/blob/master/tutorials/javaFxTutorialPart4.md
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
@@ -28,6 +29,7 @@ public class Main extends Application {
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setDuke(duke);
             fxmlLoader.<MainWindow>getController().setMainStage(stage);
+            stage.setTitle("Cat Person");
             stage.show();
         } catch (IOException | DukeException e) {
             e.printStackTrace();

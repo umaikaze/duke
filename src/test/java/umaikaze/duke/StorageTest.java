@@ -15,7 +15,7 @@ import umaikaze.duke.task.Todo;
 public class StorageTest {
     @Test
     public void saveFile_normalInput_Todo() throws IOException, DukeException {
-        String dir = "data.txt";
+        String dir = "./data/data.txt";
         List<Task> list = new ArrayList<>();
         list.add(new Todo("TestTodo"));
         Storage storage = new Storage(dir);
@@ -25,7 +25,7 @@ public class StorageTest {
     }
     @Test
     public void loadFile_normalInput_Todo() throws IOException, DukeException {
-        String dir = "data.txt";
+        String dir = "./data/data.txt";
         List<Task> list;
         Storage storage = new Storage(dir);
         list = storage.loadFile();
