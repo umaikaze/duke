@@ -13,6 +13,7 @@ import umaikaze.duke.task.Todo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class TaskList {
     List<Task> list;
@@ -36,7 +37,7 @@ public class TaskList {
             newTask = new Deadline(p.description, p.date, p.time);
             break;
         case "event":
-            newTask = new Event(p.description, p.date, p.time);
+            newTask = new Event(p.description, p.date, p.time, p.duration);
             break;
         case "todo":
             newTask = new Todo(p.description);
@@ -133,6 +134,10 @@ public class TaskList {
 
     public void saveFile(Storage st) throws IOException, DukeException{
         st.saveFile(list);
+    }
+
+    public Stream<Task> getListAsStream() {
+        return list.stream();
     }
 
     @Override

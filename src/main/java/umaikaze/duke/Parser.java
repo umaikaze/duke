@@ -5,6 +5,7 @@
 
 package umaikaze.duke;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +15,7 @@ public class Parser {
     char separator;
     LocalDate date = null;
     LocalTime time = null;
+    Duration duration = null;
 
     /**
      * This constructor is used by TaskList.getTask
@@ -21,6 +23,11 @@ public class Parser {
     public Parser(String[] words) {
         setDateTime(words);
         setDescriptionString(words);
+    }
+
+    public static LocalDate toDate(String string) {
+        return LocalDate.parse(string, string.contains("-") ? DateTimeFormatter.ofPattern("d-M-yyyy")
+                : DateTimeFormatter.ofPattern("d/M/yyyy"));
     }
 
     private void setDateTime(String[] words) {
@@ -34,6 +41,12 @@ public class Parser {
                 }
                 if (words.length > i + 2 && words[i + 2].contains(":")) {
                     time = LocalTime.parse(words[i + 2], DateTimeFormatter.ofPattern("H:mm"));
+                }
+            }
+            if (words[i].equals("/for")) {
+                System.out.println("duration command recognized");
+                if (words.length > i + 1) {
+                    duration = Duration.ofHours(Long.parseLong(words[i + 1]));
                 }
             }
         }

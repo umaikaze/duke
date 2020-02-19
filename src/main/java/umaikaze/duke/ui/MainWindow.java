@@ -13,8 +13,11 @@ import javafx.util.Duration;
 import umaikaze.duke.Duke;
 import umaikaze.duke.DukeException;
 import umaikaze.duke.Message;
+import umaikaze.duke.Parser;
+import umaikaze.duke.task.Event;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 /**
@@ -62,6 +65,8 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
+        String[] words = input.split(" ");
+        userInput.clear();
         if (input.equals("")) {
             return;
         }
@@ -72,6 +77,10 @@ public class MainWindow extends AnchorPane {
         }
         if (input.toLowerCase().equals("bye")) {
             hideUi();
+            return;
+        }
+        if (words[0].equals("schedule")) {
+            showSchedule(Parser.toDate(words[1]));
             return;
         }
         try {
@@ -87,7 +96,6 @@ public class MainWindow extends AnchorPane {
             System.out.println("IOException caught in handleUserInput");
             showDukeDialog(Message.EXCEPTION_UNABLE_TO_SAVE_LOAD + "\n" + e.getMessage(), systemImage);
         }
-        userInput.clear();
     }
 
     private void showUserDialog(String userText) {
@@ -114,5 +122,13 @@ public class MainWindow extends AnchorPane {
         PauseTransition delay = new PauseTransition(Duration.millis(1000));
         delay.setOnFinished(event -> mainStage.close());
         delay.play();
+    }
+
+    private void showSchedule(LocalDate date) {
+        dialogContainer.getChildren().add(
+                new DaySchedule(date, duke.tl.getListAsStream()
+                        .filter(task -> task instanceof Event)
+                        .map(task -> (Event) task)
+                        .filter(event -> event.getDate().isEqual(date))));
     }
 }

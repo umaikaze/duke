@@ -73,7 +73,7 @@ public class Storage {
                     break;
                 default:
                     p = new StorageParser(line[2], line[3]);
-                    task = new Event(p.description, p.date, p.time);
+                    task = new Event(p.description, p.date, p.time, p.duration);
                     System.out.println("Loaded an event:" + task.getDescription());
                     break;
                 }
