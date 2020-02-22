@@ -17,6 +17,7 @@ import umaikaze.duke.Parser;
 import umaikaze.duke.task.Event;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
@@ -83,10 +84,10 @@ public class MainWindow extends AnchorPane {
             return;
         }
         if (words[0].equals("schedule")) {
-            if (words.length < 2) {
-                showSchedule(LocalDate.now());
-            } else {
+            try {
                 showSchedule(Parser.toDate(words[1]));
+            } catch (DateTimeParseException | NullPointerException | ArrayIndexOutOfBoundsException e) {
+                showSchedule(LocalDate.now());
             }
             return;
         }
