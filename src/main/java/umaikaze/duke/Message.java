@@ -13,10 +13,11 @@ public class Message {
     public static final String FIND = "Hewe are the matching tasks in youw list:";
     public static final String EMPTY_LIST = "list is empty ^qwq^";
     public static final String EMPTY_SEARCH_RESULT = "no matches ^qwq^";
+    public static final String EMPTY_SCHEDULE = "this day is empty (・`ω´・)";
     public static final String TASK_ADDED = "Got it ^UωU^ I've added this task:";
     public static final String TASK_DONE = "nyice ^;;ω;;^  I've mawked this task as donye:";
     public static final String TASK_DELETED = "nyoted (^・`ω´・^)  I've removed this task:";
-    public static final String EXCEPTION_BAD_TIME_FORMAT= "youw date and time fowmat is invalid ^;;w;;^ "
+    public static final String EXCEPTION_BAD_TIME_FORMAT= "youw date and time fowmat is invalid ^;;w;;^"
             + "make suwe to follow d/M/yyyy fowmat followed by optionyal 24 hour time H:mm (^・`ω´・^)";
     public static final String EXCEPTION_UNABLE_TO_SAVE_LOAD = "oh nyo ^;;w;;^  I was unyable to save / load because:";
     public static final String EXCEPTION_UNKNOWN_COMMAND = "OOPS oωo  I'm sowwy, but I don't knyow what that " +
@@ -26,4 +27,7 @@ public class Message {
             " make suwe to specify timing for deadlinye or event with /by and /at";
     public static final String EXCEPTION_TASK_OUT_OF_BOUNDS = "we don't have that many tasks >ω<";
     public static final String EXCEPTION_EMPTY_SEARCH_KEYWORDS = "keyoword(s) cannyot be empty (^・`ω´・^)";
+    public static final String EXCEPTION_DURATION_BUT_NO_TIMING = "You cannyot set event duration if you" +
+            " don't input the event start time (^・`ω´・^)";
+    public static final String EXCEPTION_DURATION_NOT_INTEGER = "onwly integer hours allyowed ^;;w;;^";
 }

@@ -11,6 +11,7 @@ import umaikaze.duke.task.Task;
 import umaikaze.duke.task.Todo;
 
 import java.io.*;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,29 +59,7 @@ public class Storage {
         String[] line;
         if (nextLine != null) {
             while (nextLine != null) {
-                line = nextLine.split("\\|");
-                Task task;
-                StorageParser p;
-                switch (line[0]) {
-                case "T":
-                    task = new Todo(line[2]);
-                    System.out.println("Loaded a todo:" + task.getDescription());
-                    break;
-                case "D":
-                    p = new StorageParser(line[2], line[3]);
-                    task = new Deadline(p.description, p.date, p.time);
-                    System.out.println("Loaded a deadline:" + task.getDescription());
-                    break;
-                default:
-                    p = new StorageParser(line[2], line[3]);
-                    task = new Event(p.description, p.date, p.time, p.duration);
-                    System.out.println("Loaded an event:" + task.getDescription());
-                    break;
-                }
-                if (line[1].equals("1")) {
-                    task.markDone();
-                }
-                list.add(task);
+                list.add(StorageParser.parse(nextLine.split("\\|")));
                 nextLine = br.readLine();
             }
         }

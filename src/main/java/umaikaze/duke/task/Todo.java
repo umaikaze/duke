@@ -1,7 +1,9 @@
 package umaikaze.duke.task;
 
+import umaikaze.duke.DukeException;
+
 public class Todo extends Task {
-    public Todo(String description) {
+    public Todo(String description) throws DukeException {
         super(description);
     }
 

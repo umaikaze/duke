@@ -5,10 +5,7 @@
 
 package umaikaze.duke;
 
-import umaikaze.duke.task.Deadline;
-import umaikaze.duke.task.Event;
 import umaikaze.duke.task.Task;
-import umaikaze.duke.task.Todo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,39 +25,13 @@ public class TaskList {
 
     public int size() { return list.size(); };
 
-    private Task getTask(String[] line) throws DukeException {
-        Task newTask;
-        String cmd = line[0];
-        Parser p = new Parser(line);
-        switch (cmd) {
-        case "deadline":
-            newTask = new Deadline(p.description, p.date, p.time);
-            break;
-        case "event":
-            newTask = new Event(p.description, p.date, p.time, p.duration);
-            break;
-        case "todo":
-            newTask = new Todo(p.description);
-            break;
-        default:
-            throw new DukeException(Message.EXCEPTION_UNKNOWN_COMMAND);
-        }
-        if (p.description.equals("")) {
-            throw new DukeException(Message.EXCEPTION_DESCRIPTION_EMPTY);
-        }
-        if (!cmd.equals("todo") && p.date == null) {
-            throw new DukeException(Message.EXCEPTION_TIMING_NOT_FOUND);
-        }
-        return newTask;
-    }
-
     /**
      * Adds a new Task object to list, as specified by
-     * @param line, a String array already split
+     * @param words, a String array already split
      * Returns the Task description in String when successful
      */
-    public String addTask(String[] line) throws DukeException{
-        Task newTask = getTask(line);
+    public String addTask(String[] words) throws DukeException{
+        Task newTask = Parser.parse(words);
         assert !newTask.getDescription().equals("");
         list.add(newTask);
         return Message.TASK_ADDED + "\n\t"

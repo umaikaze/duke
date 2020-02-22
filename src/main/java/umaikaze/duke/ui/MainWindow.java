@@ -83,7 +83,11 @@ public class MainWindow extends AnchorPane {
             return;
         }
         if (words[0].equals("schedule")) {
-            showSchedule(Parser.toDate(words[1]));
+            if (words.length < 2) {
+                showSchedule(LocalDate.now());
+            } else {
+                showSchedule(Parser.toDate(words[1]));
+            }
             return;
         }
         try {

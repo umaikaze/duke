@@ -2,8 +2,6 @@
  * Main Ui which the user interact with, the Application launched by Launcher
  */
 
-
-
 package umaikaze.duke;
 
 import java.io.IOException;

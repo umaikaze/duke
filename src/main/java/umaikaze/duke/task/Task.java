@@ -6,12 +6,17 @@
 package umaikaze.duke.task;
 
 import umaikaze.duke.DukeException;
+import umaikaze.duke.Message;
 
 public class Task {
     protected String description;
     protected boolean isDone;
 
-    public Task(String description) {
+    public Task(String description) throws DukeException {
+        if (description.equals("")) {
+            throw new DukeException(Message.EXCEPTION_DESCRIPTION_EMPTY);
+        }
+
         this.description = description;
         this.isDone = false;
     }

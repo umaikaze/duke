@@ -1,5 +1,8 @@
 package umaikaze.duke.task;
 
+import umaikaze.duke.DukeException;
+import umaikaze.duke.Message;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -8,8 +11,13 @@ public class Deadline extends Task {
     protected LocalDate date;
     protected LocalTime time;
 
-    public Deadline(String description, LocalDate date, LocalTime time) {
+    public Deadline(String description, LocalDate date, LocalTime time) throws DukeException{
         super(description);
+
+        if (date == null) {
+            throw new DukeException(Message.EXCEPTION_TIMING_NOT_FOUND);
+        }
+
         this.date = date;
         this.time = time;
     }

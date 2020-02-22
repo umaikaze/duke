@@ -1,9 +1,11 @@
 package umaikaze.duke.task;
 
+import umaikaze.duke.DukeException;
+import umaikaze.duke.Message;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class Event extends Task implements Comparable<Event> {
@@ -11,8 +13,16 @@ public class Event extends Task implements Comparable<Event> {
     protected LocalTime time;
     protected Duration duration;
 
-    public Event(String description, LocalDate date, LocalTime time, Duration duration) {
+    public Event(String description, LocalDate date, LocalTime time, Duration duration) throws DukeException {
         super(description);
+
+        if (date == null) {
+            throw new DukeException(Message.EXCEPTION_TIMING_NOT_FOUND);
+        }
+        if (duration != null && time == null) {
+            throw new DukeException(Message.EXCEPTION_DURATION_BUT_NO_TIMING);
+        }
+
         this.date = date;
         this.time = time;
         this.duration = duration;

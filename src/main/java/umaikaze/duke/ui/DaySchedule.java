@@ -2,8 +2,11 @@ package umaikaze.duke.ui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import umaikaze.duke.Message;
 import umaikaze.duke.task.Event;
 
 import java.io.IOException;
@@ -41,6 +44,13 @@ public class DaySchedule extends VBox {
             }
             getChildren().add(newBox);
             lastEventEndTime = cur.getEndTIme();
+        }
+        if (getChildren().size() == 1) {
+            Label empty = new Label(Message.EMPTY_SCHEDULE);
+            empty.setFont(new Font( "Comic Sans MS", 12));
+            empty.setWrapText(true);
+            empty.setPadding(new Insets(5, 5, 5, 5));
+            getChildren().add(empty);
         }
     }
 }
